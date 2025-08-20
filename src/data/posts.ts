@@ -1,5 +1,5 @@
 import type { Post } from '../types/Post';
-import { fetchPostFromAPI, fallbackPost } from '../services/api';
+import { fetchPostFromAPI } from '../services/api';
 
 let cachedPost: Post | null = null;
 
@@ -13,12 +13,11 @@ export async function getAllPosts(): Promise<Post[]> {
   if (apiPost) {
     console.log('Using API post with slug:', apiPost.slug);
     cachedPost = apiPost;
+    return [cachedPost];
   } else {
-    console.log('API failed, using fallback post with slug:', fallbackPost.slug);
-    cachedPost = fallbackPost;
+    console.error('Failed to fetch post from API - no fallback will be used');
+    throw new Error('Unable to fetch post data from API');
   }
-  
-  return [cachedPost];
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | undefined> {
