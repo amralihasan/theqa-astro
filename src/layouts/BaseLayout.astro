@@ -1,0 +1,150 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "مدونة الاستثمار والوساطة المالية - دليلك للاستثمار الذكي" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="nav-container">
+          <a href="/" class="nav-brand">مدونة الاستثمار</a>
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="/" class="nav-link">الرئيسية</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    
+    <main class="main-content">
+      <slot />
+    </main>
+    
+    <footer class="footer">
+      <div class="footer-container">
+<p>&copy; 2024 مدونة الاستثمار. مطور بـ ❤️ و Astro.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(html) {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'Noto Sans Arabic', sans-serif;
+    line-height: 1.8;
+    color: #333;
+    direction: rtl;
+  }
+
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+  }
+
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(a) {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0066cc;
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .nav-link:hover {
+    background-color: #f0f8ff;
+    text-decoration: none;
+  }
+
+  .main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .footer {
+    background-color: #333;
+    color: white;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .nav-container {
+      padding: 1rem;
+    }
+    
+    .main-content {
+      padding: 1rem;
+    }
+    
+    .footer-container {
+      padding: 1rem;
+    }
+  }
+</style>

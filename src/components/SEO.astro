@@ -1,0 +1,53 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  type?: string;
+}
+
+const { 
+  title, 
+  description, 
+  canonical = Astro.url.href,
+  image = '/og-image.jpg',
+  type = 'website'
+} = Astro.props;
+
+const siteName = 'مدونة الاستثمار';
+---
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url).href} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.url).href} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonical} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{title}",
+  "description": "{description}",
+  "image": "{new URL(image, Astro.url).href}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{siteName}",
+    "url": "{Astro.url.origin}"
+  },
+  "url": "{canonical}"
+}
+</script>
