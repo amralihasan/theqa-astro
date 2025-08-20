@@ -1,31 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllPosts, getPostBySlug } from '../../data/posts';
+import { getPostBySlug } from '../../data/posts';
 import type { Post } from '../../types/Post';
 
-export async function getStaticPaths() {
-  const posts = await getAllPosts();
-  
-  console.log('=== STATIC PATHS GENERATION ===');
-  posts.forEach((post, index) => {
-    console.log(`Post ${index + 1}:`);
-    console.log(`  - Title: ${post.title}`);
-    console.log(`  - Slug: ${post.slug}`);
-    console.log(`  - Route will be: /posts/${post.slug}`);
-  });
-  console.log('==============================');
-  
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/');
 }
 
-interface Props {
-  post: Post;
-}
+const post = await getPostBySlug(slug);
 
-const { post } = Astro.props;
+if (!post) {
+  return Astro.redirect('/');
+}
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('ar-SA', {
