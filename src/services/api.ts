@@ -20,10 +20,10 @@ export async function fetchPostFromAPI(): Promise<Post | null> {
     // Get environment variables
     const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
     const apiHash = import.meta.env.PUBLIC_API_HASH;
-    const authToken = import.meta.env.API_AUTH_TOKEN;
+    const authToken = "YWRtaW46U0F3S3EzQUg5bVZxVg=="; // Hardcoded for testing
     const pageSlug = import.meta.env.PUBLIC_API_PAGE_SLUG;
 
-    if (!baseUrl || !apiHash || !authToken || !pageSlug) {
+    if (!baseUrl || !apiHash || !pageSlug) {
       throw new Error('Missing required environment variables');
     }
 
@@ -38,9 +38,20 @@ export async function fetchPostFromAPI(): Promise<Post | null> {
     };
 
     const apiUrl = `${baseUrl}/page/${pageSlug}`;
-    console.log('Fetching from URL:', apiUrl);
+    console.log('=== API REQUEST DEBUG ===');
+    console.log('Base URL:', baseUrl);
+    console.log('Page Slug:', pageSlug);
+    console.log('Full API URL:', apiUrl);
+    console.log('Request Headers:', Object.fromEntries(myHeaders.entries()));
+    console.log('========================');
     
     const response = await fetch(apiUrl, requestOptions);
+    
+    console.log('=== API RESPONSE DEBUG ===');
+    console.log('Response Status:', response.status);
+    console.log('Response OK:', response.ok);
+    console.log('Response Headers:', Object.fromEntries(response.headers.entries()));
+    console.log('=========================');
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,7 +104,7 @@ export async function fetchPostFromAPI(): Promise<Post | null> {
     console.error("Environment check:");
     console.error("- BASE_URL exists:", !!import.meta.env.PUBLIC_API_BASE_URL);
     console.error("- API_HASH exists:", !!import.meta.env.PUBLIC_API_HASH);
-    console.error("- AUTH_TOKEN exists:", !!import.meta.env.API_AUTH_TOKEN);
+    console.error("- AUTH_TOKEN exists:", true); // Hardcoded for testing
     console.error("- PAGE_SLUG exists:", !!import.meta.env.PUBLIC_API_PAGE_SLUG);
     console.error("======================");
     
